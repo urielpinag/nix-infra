@@ -5,7 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
-    sge.url = "github:urielpinag/SMS-UR";
+    # sge.url = "github:urielpinag/SMS-UR";
   };
 
   outputs =
@@ -37,7 +37,7 @@
           ./modules/nixos/services/garage.nix
           ./modules/nixos/services/tailscale.nix
           ./modules/nixos/services/cloudflared.nix
-          ./modules/nixos/services/sge.nix
+          # ./modules/nixos/services/sge.nix
         ];
       };
 
