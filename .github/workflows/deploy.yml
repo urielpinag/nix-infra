@@ -1,0 +1,35 @@
+name: Deploy
+
+# Despliegue de nc-s1 para CAMBIOS DE INFRA (push a main de nix-infra). Este
+# action dispara `sudo sge-deploy-infra`, que actualiza el checkout y corre
+# `nixos-rebuild switch` SIN tocar el input `sge` (usa el commit ya fijado en
+# el flake.lock).
+#
+# Para desplegar una versión nueva de la APP (SMS-UR), usa el action `Deploy`
+# de ese repo (que compila, hace nix copy y dispara `sge-deploy`).
+#
+# Disparador:
+#   - push a main de nix-infra.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      NC_S1_HOST: 152.53.38.88
+      NC_S1_PORT: 50777
+      NC_S1_USER: sge-deploy
+    steps:
+      - name: Desplegar en nc-s1
+        # Todo en un solo step: el ssh-agent y SSH_AUTH_SOCK no persisten entre
+        # steps, y `IdentitiesOnly=yes` sin IdentityFile ignora la llave del
+        # agent. Sin ambos, ssh nunca ofrece la deploy key.
+        run: |
+          eval "$(ssh-agent -s)"
+          echo "${{ secrets.SSH_DEPLOY_KEY }}" | ssh-add -
+          ssh -p "$NC_S1_PORT" -o StrictHostKeyChecking=accept-new \
+            "$NC_S1_USER@$NC_S1_HOST" 'sudo sge-deploy-infra'
