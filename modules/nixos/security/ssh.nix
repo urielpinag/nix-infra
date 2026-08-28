@@ -19,6 +19,7 @@
       AllowUsers = [
         "ur"
         "sge-deploy"
+        "mdfz-deploy"
       ];
     };
 

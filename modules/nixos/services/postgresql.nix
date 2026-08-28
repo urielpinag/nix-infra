@@ -9,11 +9,21 @@
     enable = true;
     package = pkgs.postgresql_16;
 
-    ensureDatabases = [ "sge" ];
+    ensureDatabases = [
+      "sge"
+      "pos_db"
+    ];
 
+    # Nota: no usar `ensureDBOwnership` con nombres de usuario distintos a la
+    # BD (assertion de nixpkgs exige una BD con el mismo nombre). sge_user se
+    # vuelve superuser via sge-db-prep y pos_user recibe grants via
+    # pos-db-roles.
     ensureUsers = [
       {
         name = "sge_user";
+      }
+      {
+        name = "pos_user";
       }
     ];
 
@@ -44,6 +54,25 @@
       $PSQL -tAc "ALTER ROLE sge_user WITH SUPERUSER;"
       $PSQL -tAc "DO \$\$ BEGIN IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'sge_app') THEN CREATE ROLE sge_app NOLOGIN; END IF; END \$\$;"
       $PSQL -tAc "GRANT sge_app TO sge_user;"
+    '';
+  };
+
+  # pos_user necesita poder crear tablas en pos_db (drizzle-kit push y seed de
+  # mdfz-pos). Replica lo que hace setup-db.sh en desarrollo.
+  systemd.services.pos-db-roles = {
+    description = "Otorgar privilegios de pos_user sobre pos_db";
+    after = [ "postgresql.service" ];
+    requires = [ "postgresql.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      User = "postgres";
+    };
+    script = ''
+      PSQL=${pkgs.postgresql_16}/bin/psql
+      $PSQL -tAc "GRANT ALL PRIVILEGES ON DATABASE pos_db TO pos_user;"
+      $PSQL -d pos_db -tAc "GRANT ALL ON SCHEMA public TO pos_user;"
     '';
   };
 }

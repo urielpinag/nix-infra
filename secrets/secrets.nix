@@ -19,4 +19,5 @@ in
     nc-s1
     ur
   ];
+  "mdfz-env.age".publicKeys = todos;
 }

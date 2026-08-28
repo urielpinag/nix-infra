@@ -6,6 +6,7 @@
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     sge.url = "git+ssh://git@github.com/urielpinag/SMS-UR?ref=main";
+    mdfz.url = "git+ssh://git@github.com/urielpinag/mdfz-pos?ref=main";
   };
 
   outputs =
@@ -38,6 +39,7 @@
           ./modules/nixos/services/tailscale.nix
           ./modules/nixos/services/cloudflared.nix
           ./modules/nixos/services/sge.nix
+          ./modules/nixos/services/mdfz.nix
         ];
       };
 

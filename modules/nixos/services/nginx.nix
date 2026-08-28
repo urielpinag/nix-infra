@@ -31,5 +31,20 @@
         proxyWebsockets = true;
       };
     };
+
+    # POS mdfz: todo lo sirve el proceso Node (SSR + SPA); nginx solo proxya.
+    virtualHosts."pos.mdfzapopan.org" = {
+      listen = [
+        {
+          addr = "127.0.0.1";
+          port = 80;
+        }
+      ];
+
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8081";
+        proxyWebsockets = true;
+      };
+    };
   };
 }

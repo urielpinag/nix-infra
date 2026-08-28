@@ -13,6 +13,7 @@
 
       ingress = {
         "app.radarescolar.org" = "http://localhost:80";
+        "pos.mdfzapopan.org" = "http://localhost:80";
       };
 
       default = "http_status:404";
