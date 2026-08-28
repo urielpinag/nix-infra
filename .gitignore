@@ -1,6 +1,0 @@
-result
-result-*
-*.key
-key.txt
-secrets/*.pem
-.DS_Store
