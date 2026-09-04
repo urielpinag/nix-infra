@@ -12,6 +12,11 @@ in
 
   system.stateVersion = "26.05";
 
+  # NixOS gestiona /etc/shadow: aplica los hashedPasswordFile (secrets .age) a
+  # root y ur en cada activación. Con el default (true) no sobreescribe las
+  # contraseñas de usuarios ya existentes.
+  users.mutableUsers = false;
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
