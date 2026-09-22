@@ -1,0 +1,21 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      NC_S1_HOST: 152.53.38.88
+      NC_S1_PORT: 50777
+      NC_S1_USER: sge-deploy
+    steps:
+      - name: Desplegar en nc-s1
+        run: |
+          eval "$(ssh-agent -s)"
+          echo "${{ secrets.SSH_DEPLOY_KEY }}" | ssh-add -
+          ssh -p "$NC_S1_PORT" -o StrictHostKeyChecking=accept-new \
+            "$NC_S1_USER@$NC_S1_HOST" 'sudo sge-deploy-infra'
