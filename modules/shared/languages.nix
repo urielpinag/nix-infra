@@ -14,13 +14,13 @@ in
 
   config = lib.mkIf cfg.enable {
     shared.languages.packages = with pkgs; [
-      clang # C (clang/LLVM)
-      rustc # Rust
-      cargo # Rust build tool
-      php # PHP
-      nodejs # JavaScript runtime
-      typescript # TypeScript compiler (tsc)
-      python3 # Python interpreter
+      clang
+      rustc
+      cargo
+      php
+      nodejs
+      typescript
+      python3
     ];
   };
 }

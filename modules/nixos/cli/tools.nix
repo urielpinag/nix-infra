@@ -12,7 +12,7 @@ in
   imports = [ ../../shared/cli/tools.nix ];
 
   options.cli.tools = {
-    enable = lib.mkEnableOption "Herramientas CLI del workstation (lazygit, opencode, lazydocker, mdcat, slumber, pi)";
+    enable = lib.mkEnableOption "Herramientas CLI del workstation (lazygit, opencode2, lazydocker, mdcat, slumber, pi)";
   };
 
   config = lib.mkIf cfg.enable {

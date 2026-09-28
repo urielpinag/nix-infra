@@ -24,18 +24,15 @@ let
     pasteboard = {}
   '';
 
-  # LSPs para los lenguajes principales. Helix ya los referencia por default
-  # en su languages.toml embebido; aquí solo instalamos los binarios.
-  # Excluibles (p. ej. en servidores) vía cfg.includeLsps.
   lspPackages = [
-    pkgs.clang-tools # clangd (C/C++)
+    pkgs.clang-tools
     pkgs.rust-analyzer
     pkgs.phpactor
     pkgs.typescript-language-server
     pkgs.typescript
     pkgs.pyright
-    pkgs.ruff # linter/formatter de Python (complementario a pyright)
-    pkgs.nil # Nix
+    pkgs.ruff
+    pkgs.nil
   ];
 
   configToml = ''

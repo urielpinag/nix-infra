@@ -6,7 +6,7 @@ let
 in
 {
   options.shared.cli.tools = {
-    enable = lib.mkEnableOption "Herramientas CLI del workstation (lazygit, opencode, lazydocker, mdcat, slumber, pi)";
+    enable = lib.mkEnableOption "Herramientas CLI del workstation (lazygit, opencode2, lazydocker, mdcat, slumber, pi)";
 
     packages = lib.mkOption {
       type = lib.types.listOf lib.types.package;
@@ -18,10 +18,10 @@ in
     shared.cli.tools.packages = with pkgs; [
       lazygit
       lazydocker
-      opencode
       mdcat
       slumber
       llm-agentsPkgs.llm-agents.pi
+      llm-agentsPkgs.llm-agents.opencode2
     ] ++ lib.optional (!isDarwin) wl-clipboard;
   };
 }

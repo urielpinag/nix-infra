@@ -15,6 +15,9 @@ let
     set -s escape-time 0
     set -g focus-events on
 
+    set -g extended-keys on
+    set -g extended-keys-format csi-u
+
     set -g base-index 1
     setw -g pane-base-index 1
     set -g renumber-windows on
@@ -27,10 +30,12 @@ let
     bind | split-window -h -c "#{pane_current_path}"
     bind - split-window -v -c "#{pane_current_path}"
 
-    bind r source-file ~/.tmux.conf \;
+    bind r source-file ${cfg.reloadPath} \;
 
     set -g default-terminal "tmux-256color"
-    set -as terminal-features ",${cfg.terminal}:RGB"
+    set -as terminal-features ",${cfg.terminal}:RGB:extkeys"
+
+    set -as terminal-overrides "${cfg.terminal}:Eneks=\e[=1u:Dseks=\e[=0u"
 
     MORADO="#AE90EE"
     OSCURO="#0f0f14"
@@ -68,6 +73,12 @@ in
       type = lib.types.str;
       default = if isDarwin then "xterm-kitty" else "alacritty";
       description = "Terminal para la feature RGB (kitty en macOS, alacritty en Linux).";
+    };
+
+    reloadPath = lib.mkOption {
+      type = lib.types.str;
+      default = if isDarwin then "~/.config/tmux/tmux.conf" else "/etc/tmux.conf";
+      description = "Ruta de la config de tmux que recarga el bind 'prefix + r'.";
     };
 
     config = lib.mkOption {
