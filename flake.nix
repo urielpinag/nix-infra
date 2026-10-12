@@ -5,13 +5,15 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
-    sge.url = "git+ssh://git@github.com/urielpinag/SMS-UR?ref=main";
+    sge.url = "git+ssh://git@github.com/urielpinag/SMS-UR?ref=prod";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     llm-agents.url = "github:numtide/llm-agents.nix";
     llm-agents.inputs.nixpkgs.follows = "nixpkgs";
+    bookokrat.url = "github:bugzmanov/bookokrat";
+    bookokrat.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
